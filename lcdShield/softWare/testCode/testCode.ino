@@ -11,31 +11,36 @@ int NUM_KEYS = 5;
 int adc_key_in;
 int key=-1;
 int oldkey=-1;
+int loopCnt=0;
+String welcomeLine1 = "LCD 16x2 Display";
+String welcomeLine2 = "LinkSprite LCD Shield";
  
 void setup()
 {
   lcd.begin(16, 2);
   lcd.clear();
   lcd.setCursor(0,0);
-  lcd.print("     helle! ");
-  lcd.print("      welcome!");
+  lcd.print(welcomeLine1);
   lcd.setCursor(0,1);
-  lcd.print("   LinkSprite");
-  lcd.print("    LCD Shield");
-  delay(1000);
- 
+  lcd.print(welcomeLine2);
+  delay(500);
+  // 
   lcd.setCursor(0,0);
-  for (char k=0;k<26;k++)
+  for (char k=0;k<welcomeLine2.length();k++)
   {
     lcd.scrollDisplayLeft();
-    delay(400);
+    delay(100);
   }
   lcd.clear();
-  lcd.setCursor(0,0); 
-  lcd.print("ADC key testing"); 
+  //lcd.setCursor(0,0); 
+  //lcd.print("ADC key testing"); 
 }
 void loop()
 {
+   lcd.setCursor(0, 0);
+   //lcd.print( "loopCnt...");
+   lcd.print( "Loop " + String(loopCnt) );
+   
    adc_key_in = analogRead(0);    // read the value from the sensor 
    key = get_key(adc_key_in);  // convert into key press
    if (key != oldkey)   // if keypress is detected
@@ -53,6 +58,7 @@ void loop()
        }
      }
    }
+   loopCnt += 1;
    delay(100);
 }
 // Convert ADC value to key number
